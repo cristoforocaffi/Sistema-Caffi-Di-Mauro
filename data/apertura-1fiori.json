@@ -1,1 +1,83 @@
 
+{
+  "id": "1f",
+  "name": "Apertura 1♣",
+  "description": "Fiori forte (16+ punti)",
+  "children": [
+    {
+      "id": "1f-1q",
+      "name": "1♦",
+      "description": "4+ carte di quadri, naturale"
+    },
+    {
+      "id": "1f-1c",
+      "name": "1♣",
+      "description": "4+ carte di fiori, naturale"
+    },
+    {
+      "id": "1f-1p",
+      "name": "1♥",
+      "description": "4+ carte di cuori, naturale"
+    },
+    {
+      "id": "1f-1p2",
+      "name": "1♠",
+      "description": "4+ carte di picche, naturale"
+    },
+    {
+      "id": "1f-1nt",
+      "name": "1NT",
+      "description": "Naturale"
+    },
+    {
+      "id": "1f-2f",
+      "name": "2♣",
+      "description": "Forcing manche, bilanciata oppure con le fiori (passato di mano naturale)"
+    },
+    {
+      "id": "1f-2q",
+      "name": "2♦",
+      "description": "Monocolore di cuori o picche debole"
+    },
+    {
+      "id": "1f-2c",
+      "name": "2♥",
+      "description": "5 picche e 4 cuori, 4-8 punti"
+    },
+    {
+      "id": "1f-2p",
+      "name": "2♠",
+      "description": "6 fiori, invitante"
+    },
+    {
+      "id": "1f-2nt",
+      "name": "2NT",
+      "description": "Naturale, invitante"
+    },
+    {
+      "id": "1f-3f",
+      "name": "3♣",
+      "description": "6 fiori, barrage"
+    },
+    {
+      "id": "1f-3q",
+      "name": "3♦",
+      "description": "Barrage"
+    },
+    {
+      "id": "1f-3c",
+      "name": "3♥",
+      "description": "Barrage"
+    },
+    {
+      "id": "1f-3p",
+      "name": "3♠",
+      "description": "Barrage"
+    },
+    {
+      "id": "1f-3nt",
+      "name": "3NT",
+      "description": "Naturale, 12-14 punti"
+    }
+  ]
+}
