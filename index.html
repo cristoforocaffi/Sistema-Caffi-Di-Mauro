@@ -5,8 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sistema Bridge</title>
   <link rel="stylesheet" href="css/style.css">
-  <!-- Libreria per l'albero -->
+  
+  <!-- Libreria per l'albero (versione corretta per evitare errori) -->
   <script src="https://cdn.jsdelivr.net/npm/apextree@2.2.0"></script>
+  
   <!-- Libreria per il PDF -->
   <script src="https://cdn.jsdelivr.net/npm/html2pdf.js@0.10.1/dist/html2pdf.bundle.min.js"></script>
 </head>
@@ -20,6 +22,7 @@
     <button id="export-pdf">Esporta PDF</button>
   </header>
 
+  <!-- Il contenitore dove verrà disegnato l'albero -->
   <div id="tree-container"></div>
 
   <!-- Il tuo codice, caricato per ultimo -->
