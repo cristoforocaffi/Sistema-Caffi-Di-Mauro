@@ -534,38 +534,119 @@
     // --------------------------------------------------
     // NAVIGAZIONE TRA I TAB
     // --------------------------------------------------
+function renderTable(data) {
+  tree.replaceChildren();
 
-    function selectTab(tabId) {
-      activeTabId = tabId;
+  const table = document.createElement("table");
+  table.className = "openings-table";
 
-      const tab = system.tabs.find(
-        item => item.id === tabId
-      );
+  // Intestazione
+  const thead = document.createElement("thead");
+  const headerRow = document.createElement("tr");
 
-      if (!tab) return;
+  data.columns.forEach(column => {
+    const th = document.createElement("th");
+    th.textContent = column;
+    headerRow.appendChild(th);
+  });
 
-      tabsContainer.querySelectorAll(".tab").forEach(button => {
-        const active = button.dataset.tabId === tabId;
+  thead.appendChild(headerRow);
+  table.appendChild(thead);
 
-        button.classList.toggle("active", active);
-        button.setAttribute("aria-selected", String(active));
-      });
+  // Contenuto
+  const tbody = document.createElement("tbody");
 
-      pageTitle.textContent = tab.title;
+  data.rows.forEach(row => {
+    const tr = document.createElement("tr");
 
-      if (tab.type === "intro") {
-        toolbar.classList.add("hidden");
+    const bid = document.createElement("td");
+    bid.appendChild(formatSuits(row.bid));
 
-        const content = document.createElement("div");
-        content.className = "intro-content";
-        content.textContent = tab.content || "";
+    const meaning = document.createElement("td");
+    meaning.appendChild(formatSuits(row.meaning));
 
-        tree.replaceChildren(content);
-      } else {
-        toolbar.classList.remove("hidden");
-        renderTree(tab.children || []);
-      }
+    tr.appendChild(bid);
+    tr.appendChild(meaning);
+
+    tbody.appendChild(tr);
+  });
+
+  table.appendChild(tbody);
+  tree.appendChild(table);
+}
+
+    
+    async function selectTab(tabId) {
+  activeTabId = tabId;
+
+  const tab = system.tabs.find(
+    item => item.id === tabId
+  );
+
+  if (!tab) return;
+
+  tabsContainer.querySelectorAll(".tab").forEach(button => {
+    const active = button.dataset.tabId === tabId;
+
+    button.classList.toggle("active", active);
+    button.setAttribute("aria-selected", String(active));
+  });
+
+  pageTitle.textContent = tab.title;
+  tree.replaceChildren();
+
+  // Introduzione
+  if (tab.type === "intro") {
+    toolbar.classList.add("hidden");
+
+    const content = document.createElement("div");
+    content.className = "intro-content";
+    content.textContent = tab.content || "";
+
+    tree.appendChild(content);
+    return;
+  }
+
+  // Le tabelle non hanno nodi espandibili
+  if (tab.type === "table") {
+    toolbar.classList.add("hidden");
+  } else {
+    toolbar.classList.remove("hidden");
+  }
+
+  try {
+    const response = await fetch(tab.src);
+
+    if (!response.ok) {
+      throw new Error("Errore HTTP " + response.status);
     }
+
+    const data = await response.json();
+
+    // Evita di mostrare un contenuto se nel frattempo
+    // l'utente ha selezionato un altro tab.
+    if (activeTabId !== tabId) return;
+
+    if (tab.type === "table") {
+      renderTable(data);
+    } else if (tab.type === "opening") {
+      renderTree(data.children || []);
+    }
+
+  } catch (error) {
+    console.error(error);
+
+    if (activeTabId !== tabId) return;
+
+    const message = document.createElement("p");
+    message.className = "error";
+    message.textContent =
+      "Errore nel caricamento di " + tab.src +
+      ": " + error.message;
+
+    tree.appendChild(message);
+  }
+}
 
     function renderTabs() {
       tabsContainer.replaceChildren();
