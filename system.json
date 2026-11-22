@@ -4,70 +4,13 @@
       "id": "intro",
       "title": "Introduzione",
       "type": "intro",
-      "content": "Benvenuto nel sistema dichiarativo.\n\nSeleziona un'apertura per consultare le sequenze."
+      "content": "Benvenuto nel sistema dichiarativo di Caffi-Di Mauro."
     },
     {
-      "id": "1c",
-      "title": "1♣",
-      "type": "opening",
-      "children": [
-        {
-          "id": "1c-1d",
-          "bid": "1♦",
-          "description": "Risposta",
-          "children": [
-            {
-              "id": "1c-1d-1h",
-              "bid": "1♥",
-              "description": "Ridichiarazione",
-              "children": []
-            }
-          ]
-        },
-        {
-          "id": "1c-1h",
-          "bid": "1♥",
-          "description": "Risposta",
-          "children": []
-        }
-      ]
-    },
-    {
-      "id": "1d",
-      "title": "1♦",
-      "type": "opening",
-      "children": [
-        {
-          "id": "1d-1h",
-          "bid": "1♥",
-          "description": "Risposta",
-          "children": []
-        }
-      ]
-    },
-    {
-      "id": "1h",
-      "title": "1♥",
-      "type": "opening",
-      "children": []
-    },
-    {
-      "id": "1s",
-      "title": "1♠",
-      "type": "opening",
-      "children": []
-    },
-    {
-      "id": "1nt",
-      "title": "1NT",
-      "type": "opening",
-      "children": []
-    },
-    {
-      "id": "2c",
-      "title": "2♣",
-      "type": "opening",
-      "children": []
+      "id": "openings",
+      "title": "Aperture",
+      "type": "table",
+      "src": "data/openings.json"
     }
   ]
 }
