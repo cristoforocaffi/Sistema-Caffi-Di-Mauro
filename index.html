@@ -12,7 +12,8 @@
       --muted: #64748b;
       --line: #e5e7eb;
       --hover: #f1f5f9;
-      --background: #ffffff;
+      --active: #eaf2ff;
+      --blue: #2563eb;
 
       --club: #008b50;
       --diamond: #e87500;
@@ -26,20 +27,69 @@
 
     body {
       margin: 0;
-      background: var(--background);
-      color: var(--text);
       font-family: Arial, Helvetica, sans-serif;
+      color: var(--text);
+      background: white;
       font-size: 17px;
       line-height: 1.6;
     }
 
-    header {
-      padding: 24px 32px 16px;
+    /* Barra dei tab */
+
+    .tabs-container {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: white;
       border-bottom: 1px solid var(--line);
     }
 
+    .tabs {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px;
+      overflow-x: auto;
+      scrollbar-width: thin;
+      scroll-behavior: smooth;
+    }
+
+    .tab {
+      flex-shrink: 0;
+      padding: 8px 16px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: white;
+      color: var(--text);
+      font-size: 17px;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .tab:hover {
+      background: var(--hover);
+    }
+
+    .tab.active {
+      background: var(--active);
+      border-color: var(--blue);
+      color: var(--blue);
+    }
+
+    .tab:focus-visible {
+      outline: 2px solid var(--blue);
+      outline-offset: 2px;
+    }
+
+    /* Contenuto */
+
+    header {
+      padding: 20px 24px 12px;
+    }
+
     h1 {
-      margin: 0 0 16px;
+      margin: 0;
       font-size: 24px;
       font-weight: 600;
     }
@@ -48,11 +98,7 @@
       display: flex;
       flex-wrap: wrap;
       gap: 8px;
-    }
-
-    button {
-      font: inherit;
-      cursor: pointer;
+      margin-top: 12px;
     }
 
     .toolbar button {
@@ -61,7 +107,9 @@
       border-radius: 6px;
       background: white;
       color: var(--text);
+      font: inherit;
       font-size: 14px;
+      cursor: pointer;
     }
 
     .toolbar button:hover {
@@ -69,17 +117,14 @@
     }
 
     main {
-      padding: 16px 32px 48px;
+      padding: 8px 24px 48px;
     }
 
     #tree {
-      max-width: 1200px;
+      max-width: 1400px;
     }
 
-    .node {
-      position: relative;
-      margin-left: 0;
-    }
+    /* Albero dichiarativo */
 
     .node-children {
       margin-left: 22px;
@@ -100,9 +145,13 @@
       background: var(--hover);
     }
 
-    .toggle {
+    .toggle,
+    .toggle-placeholder {
       flex: 0 0 20px;
       width: 20px;
+    }
+
+    .toggle {
       height: 28px;
       display: flex;
       align-items: center;
@@ -111,22 +160,17 @@
       border: 0;
       background: transparent;
       color: var(--muted);
-      font-size: 16px;
+      font-size: 17px;
+      cursor: pointer;
     }
 
     .toggle:hover {
       color: var(--text);
     }
 
-    .toggle:focus-visible,
-    .toolbar button:focus-visible {
-      outline: 2px solid var(--spade);
+    .toggle:focus-visible {
+      outline: 2px solid var(--blue);
       outline-offset: 2px;
-    }
-
-    .toggle-placeholder {
-      flex: 0 0 20px;
-      width: 20px;
     }
 
     .bid {
@@ -165,17 +209,42 @@
       display: none;
     }
 
+    .intro-content {
+      max-width: 900px;
+      white-space: pre-wrap;
+      color: var(--muted);
+    }
+
+    .error {
+      color: #b91c1c;
+      padding: 16px;
+    }
+
     @media (max-width: 600px) {
       body {
         font-size: 16px;
       }
 
+      .tabs {
+        gap: 6px;
+        padding: 8px;
+      }
+
+      .tab {
+        padding: 7px 12px;
+        font-size: 16px;
+      }
+
       header {
-        padding: 18px 14px 12px;
+        padding: 16px 14px 10px;
       }
 
       main {
-        padding: 12px 10px 32px;
+        padding: 8px 10px 32px;
+      }
+
+      h1 {
+        font-size: 21px;
       }
 
       .node-children {
@@ -187,20 +256,20 @@
         gap: 4px;
         padding: 3px 2px;
       }
-
-      h1 {
-        font-size: 21px;
-      }
     }
   </style>
 </head>
 
 <body>
 
-  <header>
-    <h1>Sistema dichiarativo di bridge</h1>
+  <nav class="tabs-container" aria-label="Sezioni del sistema">
+    <div id="tabs" class="tabs"></div>
+  </nav>
 
-    <div class="toolbar">
+  <header>
+    <h1 id="pageTitle">Sistema dichiarativo di bridge</h1>
+
+    <div id="toolbar" class="toolbar">
       <button id="expandAll" type="button">
         Espandi tutto
       </button>
@@ -216,42 +285,36 @@
   </main>
 
   <script>
-    // --------------------------------------------------
-    // DATI DI ESEMPIO
-    //
-    // In seguito sostituiremo questi dati con il JSON
-    // completo del tuo sistema dichiarativo.
-    // --------------------------------------------------
+    let system = { tabs: [] };
+    let activeTabId = null;
 
-   let system = [];
+    // Conserva lo stato di espansione di ogni tab.
+    const expandedNodes = new Map();
 
-    // --------------------------------------------------
-    // FUNZIONI DI VISUALIZZAZIONE
-    // --------------------------------------------------
-
+    const tabsContainer = document.getElementById("tabs");
     const tree = document.getElementById("tree");
+    const pageTitle = document.getElementById("pageTitle");
+    const toolbar = document.getElementById("toolbar");
 
-    // Colora automaticamente i simboli dei semi.
+    // --------------------------------------------------
+    // COLORI DEI SEMI
+    // --------------------------------------------------
+
     function formatSuits(text) {
       const fragment = document.createDocumentFragment();
-
       const suitRegex = /[♣♦♥♠]/g;
 
       let lastIndex = 0;
       let match;
 
       while ((match = suitRegex.exec(text)) !== null) {
-        // Testo precedente al simbolo.
         fragment.appendChild(
           document.createTextNode(
             text.slice(lastIndex, match.index)
           )
         );
 
-        // Simbolo del seme.
         const span = document.createElement("span");
-
-        span.classList.add("suit");
 
         const classes = {
           "♣": "club",
@@ -260,7 +323,7 @@
           "♠": "spade"
         };
 
-        span.classList.add(classes[match[0]]);
+        span.className = "suit " + classes[match[0]];
         span.textContent = match[0];
 
         fragment.appendChild(span);
@@ -275,7 +338,57 @@
       return fragment;
     }
 
-    // Crea un singolo nodo e i suoi eventuali figli.
+    // --------------------------------------------------
+    // STATO DEI NODI
+    // --------------------------------------------------
+
+    function getExpandedSet(tabId) {
+      if (!expandedNodes.has(tabId)) {
+        expandedNodes.set(tabId, new Set());
+      }
+
+      return expandedNodes.get(tabId);
+    }
+
+    function isExpanded(nodeId) {
+      return getExpandedSet(activeTabId).has(nodeId);
+    }
+
+    function setExpanded(nodeId, expanded) {
+      const state = getExpandedSet(activeTabId);
+
+      if (expanded) {
+        state.add(nodeId);
+      } else {
+        state.delete(nodeId);
+      }
+
+      const children = document.getElementById(
+        "children-" + nodeId
+      );
+
+      const button = document.getElementById(
+        "toggle-" + nodeId
+      );
+
+      if (children) {
+        children.classList.toggle("hidden", !expanded);
+      }
+
+      if (button) {
+        button.textContent = expanded ? "⌄" : "›";
+
+        button.setAttribute(
+          "aria-expanded",
+          String(expanded)
+        );
+      }
+    }
+
+    // --------------------------------------------------
+    // CREAZIONE DEI NODI DELL'ALBERO
+    // --------------------------------------------------
+
     function createNode(node) {
       const container = document.createElement("div");
       container.className = "node";
@@ -283,71 +396,59 @@
       const row = document.createElement("div");
       row.className = "node-row";
 
-      const childrenContainer = document.createElement("div");
-      childrenContainer.className = "node-children";
-
       const hasChildren =
         Array.isArray(node.children) &&
         node.children.length > 0;
 
-      // Pulsante di espansione.
       if (hasChildren) {
         const toggle = document.createElement("button");
 
         toggle.className = "toggle";
         toggle.type = "button";
-        toggle.textContent = "›";
-        toggle.setAttribute("aria-expanded", "false");
+        toggle.id = "toggle-" + node.id;
+
         toggle.setAttribute(
           "aria-label",
           "Espandi " + node.bid
         );
 
         toggle.addEventListener("click", () => {
-          const isExpanded =
-            toggle.getAttribute("aria-expanded") === "true";
-
-          setExpanded(
-            toggle,
-            childrenContainer,
-            !isExpanded
-          );
+          setExpanded(node.id, !isExpanded(node.id));
         });
 
         row.appendChild(toggle);
       } else {
         const placeholder = document.createElement("span");
         placeholder.className = "toggle-placeholder";
+
         row.appendChild(placeholder);
       }
 
-      // Dichiarazione.
       const bid = document.createElement("span");
       bid.className = "bid";
       bid.appendChild(formatSuits(node.bid || ""));
 
       row.appendChild(bid);
 
-      // Significato della dichiarazione.
       const description = document.createElement("span");
       description.className = "description";
+
       description.appendChild(
         formatSuits(node.description || "")
       );
 
       row.appendChild(description);
-
       container.appendChild(row);
 
-      // Costruzione ricorsiva dei figli.
       if (hasChildren) {
-        node.children.forEach(child => {
-          childrenContainer.appendChild(
-            createNode(child)
-          );
-        });
+        const childrenContainer = document.createElement("div");
 
-        childrenContainer.classList.add("hidden");
+        childrenContainer.className = "node-children";
+        childrenContainer.id = "children-" + node.id;
+
+        node.children.forEach(child => {
+          childrenContainer.appendChild(createNode(child));
+        });
 
         container.appendChild(childrenContainer);
       }
@@ -355,46 +456,117 @@
       return container;
     }
 
-    // Espande o comprime un nodo.
-    function setExpanded(button, children, expanded) {
-      children.classList.toggle("hidden", !expanded);
+    // --------------------------------------------------
+    // VISUALIZZAZIONE DELL'ALBERO
+    // --------------------------------------------------
 
-      button.textContent = expanded ? "⌄" : "›";
-
-      button.setAttribute(
-        "aria-expanded",
-        String(expanded)
-      );
-
-      button.setAttribute(
-        "aria-label",
-        (expanded ? "Comprimi " : "Espandi ") +
-        button.parentElement.querySelector(".bid").textContent
-      );
-    }
-
-    // Disegna l'intero albero.
     function renderTree(data) {
       tree.replaceChildren();
 
       data.forEach(node => {
         tree.appendChild(createNode(node));
       });
-    }
 
-    // Espande o comprime tutti i nodi.
-    function setAllExpanded(expanded) {
-      tree.querySelectorAll(".node").forEach(node => {
-        const children =
-          node.querySelector(":scope > .node-children");
+      // Ripristina lo stato di espansione.
+      tree.querySelectorAll(".node").forEach(container => {
+        const button = container.querySelector(
+          ":scope > .node-row .toggle"
+        );
 
-        const button =
-          node.querySelector(":scope > .node-row .toggle");
+        if (!button) return;
 
-        if (children && button) {
-          setExpanded(button, children, expanded);
+        const nodeId = button.id.replace("toggle-", "");
+
+        if (isExpanded(nodeId)) {
+          setExpanded(nodeId, true);
         }
       });
+    }
+
+    // --------------------------------------------------
+    // NAVIGAZIONE TRA I TAB
+    // --------------------------------------------------
+
+    function selectTab(tabId) {
+      activeTabId = tabId;
+
+      const tab = system.tabs.find(
+        item => item.id === tabId
+      );
+
+      if (!tab) return;
+
+      tabsContainer.querySelectorAll(".tab").forEach(button => {
+        const active = button.dataset.tabId === tabId;
+
+        button.classList.toggle("active", active);
+        button.setAttribute("aria-selected", String(active));
+      });
+
+      pageTitle.textContent = tab.title;
+
+      if (tab.type === "intro") {
+        toolbar.classList.add("hidden");
+
+        const content = document.createElement("div");
+        content.className = "intro-content";
+        content.textContent = tab.content || "";
+
+        tree.replaceChildren(content);
+      } else {
+        toolbar.classList.remove("hidden");
+        renderTree(tab.children || []);
+      }
+    }
+
+    function renderTabs() {
+      tabsContainer.replaceChildren();
+
+      system.tabs.forEach(tab => {
+        const button = document.createElement("button");
+
+        button.className = "tab";
+        button.type = "button";
+        button.textContent = tab.title;
+        button.dataset.tabId = tab.id;
+
+        button.setAttribute("role", "tab");
+        button.setAttribute("aria-selected", "false");
+
+        button.addEventListener("click", () => {
+          selectTab(tab.id);
+        });
+
+        tabsContainer.appendChild(button);
+      });
+
+      // Seleziona automaticamente il primo tab.
+      if (system.tabs.length > 0) {
+        selectTab(system.tabs[0].id);
+      }
+    }
+
+    // --------------------------------------------------
+    // ESPANDI / COMPRIMI TUTTO
+    // --------------------------------------------------
+
+    function setAllExpanded(expanded) {
+      const tab = system.tabs.find(
+        item => item.id === activeTabId
+      );
+
+      if (!tab || tab.type === "intro") return;
+
+      function visit(nodes) {
+        nodes.forEach(node => {
+          if (node.children && node.children.length > 0) {
+            setExpanded(node.id, expanded);
+            visit(node.children);
+          }
+        });
+      }
+
+      visit(tab.children || []);
     }
 
     document.getElementById("expandAll")
@@ -407,31 +579,46 @@
         setAllExpanded(false);
       });
 
-   // Avvio della pagina: carica il sistema dal JSON.
-async function loadSystem() {
-  try {
-    const response = await fetch("./system.json");
+    // --------------------------------------------------
+    // CARICAMENTO DEL JSON
+    // --------------------------------------------------
 
-    if (!response.ok) {
-      throw new Error(
-        "Errore nel caricamento del JSON: " + response.status
-      );
+    async function loadSystem() {
+      try {
+        const response = await fetch("./system.json");
+
+        if (!response.ok) {
+          throw new Error(
+            "Errore nel caricamento del JSON: " + response.status
+          );
+        }
+
+        system = await response.json();
+
+        if (!Array.isArray(system.tabs)) {
+          throw new Error(
+            "Il JSON deve contenere un array 'tabs'."
+          );
+        }
+
+        renderTabs();
+
+      } catch (error) {
+        console.error(error);
+
+        tree.innerHTML = "";
+
+        const message = document.createElement("p");
+        message.className = "error";
+        message.textContent =
+          "Impossibile caricare il sistema dichiarativo. " +
+          "Controlla che system.json esista e sia valido.";
+
+        tree.appendChild(message);
+      }
     }
 
-    system = await response.json();
-
-    renderTree(system);
-
-  } catch (error) {
-    console.error(error);
-
-    tree.textContent =
-      "Impossibile caricare il sistema dichiarativo. " +
-      "Controlla che system.json esista e sia valido.";
-  }
-}
-
-loadSystem();
+    loadSystem();
   </script>
 
 </body>
