@@ -404,6 +404,11 @@
         const toggle = document.createElement("button");
 
         toggle.className = "toggle";
+        toggle.textContent = isExpanded(node.id) ? "⌄" : "›";
+        toggle.setAttribute(
+          "aria-expanded",
+          String(isExpanded(node.id))
+        );
         toggle.type = "button";
         toggle.id = "toggle-" + node.id;
 
@@ -527,7 +532,7 @@
 
         button.className = "tab";
         button.type = "button";
-        button.textContent = tab.title;
+        button.appendChild(formatSuits(tab.title));
         button.dataset.tabId = tab.id;
 
         button.setAttribute("role", "tab");
