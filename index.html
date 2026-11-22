@@ -82,6 +82,49 @@
       outline-offset: 2px;
     }
 
+    /* Tabella delle aperture */
+
+.openings-table {
+  width: 100%;
+  max-width: 1000px;
+  border-collapse: collapse;
+  margin-top: 8px;
+}
+
+.openings-table th,
+.openings-table td {
+  padding: 10px 14px;
+  text-align: left;
+  border-bottom: 1px solid var(--line);
+}
+
+.openings-table th {
+  font-weight: 600;
+  color: var(--text);
+  background: #f8fafc;
+}
+
+.openings-table td:first-child {
+  width: 150px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.openings-table tr:hover td {
+  background: var(--hover);
+}
+
+@media (max-width: 600px) {
+  .openings-table th,
+  .openings-table td {
+    padding: 8px;
+  }
+
+  .openings-table td:first-child {
+    width: 85px;
+  }
+}
+
     /* Contenuto */
 
     header {
