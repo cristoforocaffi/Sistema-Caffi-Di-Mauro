@@ -1,0 +1,361 @@
+{
+  "title": "Apertura 1♦",
+  "opening": "1♦",
+  "sections": [
+    {
+      "bid": "Risposte su 1♦",
+      "description": "Risposte dell'apertore 1♦.",
+      "children": [
+        {
+          "bid": "1♥",
+          "description": "Naturale, 4+♥",
+          "children": []
+        },
+        {
+          "bid": "1♠",
+          "description": "Naturale, 4+♠",
+          "children": []
+        },
+        {
+          "bid": "1NT",
+          "description": "Naturale, 5-10",
+          "children": []
+        },
+        {
+          "bid": "2♣",
+          "description": "FM (naturale, bilanciata o tricolore)",
+          "children": []
+        },
+        {
+          "bid": "2♦",
+          "description": "Naturale, appoggio debole",
+          "children": []
+        },
+        {
+          "bid": "2♥",
+          "description": "5♠-4+♥ debole",
+          "children": []
+        },
+        {
+          "bid": "2♠",
+          "description": "4+♦ INV+",
+          "children": []
+        },
+        {
+          "bid": "2NT",
+          "description": "INV",
+          "children": []
+        },
+        {
+          "bid": "3♣",
+          "description": "INV con le ♣",
+          "children": []
+        },
+        {
+          "bid": "3♦",
+          "description": "Barrage",
+          "children": []
+        },
+        {
+          "bid": "3♥",
+          "description": "Barrage",
+          "children": []
+        },
+        {
+          "bid": "3♠",
+          "description": "Barrage",
+          "children": []
+        },
+        {
+          "bid": "3NT",
+          "description": "4333, 12-14",
+          "children": []
+        }
+      ]
+    },
+    {
+      "bid": "1♦-1♥",
+      "description": "Sviluppi dopo risposta 1♥.",
+      "children": [
+        {
+          "bid": "1♠",
+          "description": "Naturale",
+          "children": []
+        },
+        {
+          "bid": "1NT",
+          "description": "Naturale",
+          "children": []
+        },
+        {
+          "bid": "2♣",
+          "description": "Naturale, anche forte",
+          "children": []
+        },
+        {
+          "bid": "2♦",
+          "description": "Naturale",
+          "children": []
+        },
+        {
+          "bid": "2♥",
+          "description": "Appoggio, 14- bilanciata",
+          "children": []
+        },
+        {
+          "bid": "2♠",
+          "description": "Multirever",
+          "children": []
+        },
+        {
+          "bid": "2NT",
+          "description": "Fit, 15+",
+          "children": []
+        },
+        {
+          "bid": "3♣",
+          "description": "55 forte (3♦ unica passabile)",
+          "children": []
+        },
+        {
+          "bid": "3♦",
+          "description": "(6)7♦ belle, non forte",
+          "children": []
+        },
+        {
+          "bid": "3♥",
+          "description": "Appoggio, 14- sbilanciata",
+          "children": []
+        },
+        {
+          "bid": "3♠",
+          "description": "5440, vuoto ♥",
+          "children": []
+        },
+        {
+          "bid": "3NT",
+          "description": "4441, singolo ♣",
+          "children": []
+        },
+        {
+          "bid": "4♣",
+          "description": "5440, vuoto ♣",
+          "children": []
+        },
+        {
+          "bid": "4♦",
+          "description": "5440, vuoto ♠",
+          "children": []
+        }
+      ]
+    },
+    {
+      "bid": "1♦-1♠",
+      "description": "Sviluppi dopo risposta 1♠.",
+      "children": [
+        {
+          "bid": "1NT",
+          "description": "Naturale",
+          "children": []
+        },
+        {
+          "bid": "2♣",
+          "description": "Naturale, anche forte",
+          "children": []
+        },
+        {
+          "bid": "2♦",
+          "description": "Naturale",
+          "children": []
+        },
+        {
+          "bid": "2♥",
+          "description": "Multirever",
+          "children": []
+        },
+        {
+          "bid": "2♠",
+          "description": "14- bilanciata",
+          "children": []
+        },
+        {
+          "bid": "2NT",
+          "description": "Fit, 15+",
+          "children": []
+        },
+        {
+          "bid": "3♣",
+          "description": "55 forte (3♦ unica passabile)",
+          "children": []
+        },
+        {
+          "bid": "3♦",
+          "description": "(6)7♦ belle, non forte",
+          "children": []
+        },
+        {
+          "bid": "3♥",
+          "description": "5440, vuoto ♠",
+          "children": []
+        },
+        {
+          "bid": "3♠",
+          "description": "Naturale, 14- sbilanciata",
+          "children": []
+        },
+        {
+          "bid": "3NT",
+          "description": "4441, singolo ♣",
+          "children": []
+        },
+        {
+          "bid": "4♣",
+          "description": "5440, vuoto ♣",
+          "children": []
+        },
+        {
+          "bid": "4♦",
+          "description": "5440, vuoto ♥",
+          "children": []
+        }
+      ]
+    },
+    {
+      "bid": "1♦-1NT",
+      "description": "Sviluppi dopo risposta 1NT: nel testo sorgente non è presente una tabella specifica.",
+      "children": []
+    },
+    {
+      "bid": "1♦-2♣",
+      "description": "Il rispondente ha una qualsiasi mano forcing manche senza quinte in altri pali.",
+      "children": [
+        {
+          "bid": "2♦",
+          "description": "Minimo: monocolore, bicolore con un nobile o tricolore → 2♥ relais → schema max",
+          "children": []
+        },
+        {
+          "bid": "2♥",
+          "description": "12-14 bilanciata o bicolore con le fiori, minimo/massimo → 2♠ relais",
+          "children": []
+        },
+        {
+          "bid": "2♠",
+          "description": "5+♦-4♠, 16+ → 2NT GAR",
+          "children": []
+        },
+        {
+          "bid": "2NT",
+          "description": "5+♦-4♥, 16+ → 3♣ GAR",
+          "children": []
+        },
+        {
+          "bid": "3♣",
+          "description": "Monocolore massima + singolo ♣/♥ → 3♦ ask → basso/alto",
+          "children": []
+        },
+        {
+          "bid": "3♦",
+          "description": "Monocolore massima senza singolo o singolo ♠ → 3♥ ask → singolo ♠/nessun singolo",
+          "children": []
+        },
+        {
+          "bid": "3♥",
+          "description": "Tricolore, singolo alto, 16+",
+          "children": []
+        },
+        {
+          "bid": "3♠",
+          "description": "Tricolore, singolo medio, 16+",
+          "children": []
+        },
+        {
+          "bid": "3NT",
+          "description": "Tricolore, singolo/chiuso basso, 16-19",
+          "children": []
+        },
+        {
+          "bid": "4♣",
+          "description": "Tricolore, singolo/chiuso basso, 20-21",
+          "children": []
+        }
+      ]
+    },
+    {
+      "bid": "1♦-1x-2♣",
+      "description": "Il 2♣ è F1 e mostra una bicolore ♦-♣ anche forte.",
+      "children": [
+        {
+          "bid": "Dopo 1♦-1♥-2♣",
+          "description": "Sviluppi specifici riportati nel documento sorgente.",
+          "children": []
+        },
+        {
+          "bid": "Dopo 1♦-1♠-2♣",
+          "description": "Sviluppi specifici riportati nel documento sorgente.",
+          "children": []
+        },
+        {
+          "bid": "Dopo 1♦-1NT-2♣",
+          "description": "Sviluppi specifici riportati nel documento sorgente.",
+          "children": []
+        }
+      ]
+    },
+    {
+      "bid": "1♦-1♥-2♦",
+      "description": "Sviluppi dopo 1♦-1♥-2♦.",
+      "children": [
+        {
+          "bid": "2♥",
+          "description": "Relais → 2♠ minimo con singolo → 2NT ask; 2NT minimo senza singolo; 3♣/3♦/3♥ massimo con singolo nei colori indicati; 3NT massimo senza singolo",
+          "children": []
+        },
+        {
+          "bid": "2♠",
+          "description": "6+♥ invitante oppure corto-lungo debole con 4♥-6♣",
+          "children": []
+        },
+        {
+          "bid": "3♣",
+          "description": "+♥ / 5+♣ FM",
+          "children": []
+        },
+        {
+          "bid": "3♥",
+          "description": "6+♥ sign off",
+          "children": []
+        },
+        {
+          "bid": "3♠",
+          "description": "6+♥, palo imposto",
+          "children": []
+        }
+      ]
+    },
+    {
+      "bid": "1♦-1♠-2♦-2♥",
+      "description": "Il 2♥ del rispondente è F1G e assicura 5♠ e 4♥ nelle mani almeno invitanti.",
+      "children": [
+        {
+          "bid": "2♠",
+          "description": "Minimo con 2♠ e 6♦; nega 4♥ → 2NT forcing, 3♣/3♥ sign off, 3♦/3♠ fissano ISL",
+          "children": []
+        },
+        {
+          "bid": "3♣",
+          "description": "Minimo con 4♥ → 3♦ sign off",
+          "children": []
+        },
+        {
+          "bid": "3♦",
+          "description": "6+♦ minimo con singolo ♠",
+          "children": []
+        }
+      ]
+    }
+  ],
+  "notes": [
+    "Le sequenze di checkback e gli sviluppi dopo rever sono regole comuni alle aperture 1♣ e 1♦ e sono raccolte nel file common-conventions.json, da predisporre separatamente."
+  ]
+}
