@@ -3,29 +3,532 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sistema Bridge</title>
-  <link rel="stylesheet" href="css/style.css">
-  
-  <!-- Libreria per l'albero (versione corretta per evitare errori) -->
-  <script src="https://cdn.jsdelivr.net/npm/apextree@2.2.0"></script>
-  
-  <!-- Libreria per il PDF -->
-  <script src="https://cdn.jsdelivr.net/npm/html2pdf.js@0.10.1/dist/html2pdf.bundle.min.js"></script>
+
+  <title>Sistema dichiarativo di bridge</title>
+
+  <style>
+    :root {
+      --text: #263238;
+      --muted: #64748b;
+      --line: #e5e7eb;
+      --hover: #f1f5f9;
+      --background: #ffffff;
+
+      --club: #008b50;
+      --diamond: #e87500;
+      --heart: #e63946;
+      --spade: #1769e0;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: var(--background);
+      color: var(--text);
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 17px;
+      line-height: 1.6;
+    }
+
+    header {
+      padding: 24px 32px 16px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    h1 {
+      margin: 0 0 16px;
+      font-size: 24px;
+      font-weight: 600;
+    }
+
+    .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    button {
+      font: inherit;
+      cursor: pointer;
+    }
+
+    .toolbar button {
+      padding: 6px 12px;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+      background: white;
+      color: var(--text);
+      font-size: 14px;
+    }
+
+    .toolbar button:hover {
+      background: var(--hover);
+    }
+
+    main {
+      padding: 16px 32px 48px;
+    }
+
+    #tree {
+      max-width: 1200px;
+    }
+
+    .node {
+      position: relative;
+      margin-left: 0;
+    }
+
+    .node-children {
+      margin-left: 22px;
+      padding-left: 16px;
+      border-left: 1px solid var(--line);
+    }
+
+    .node-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 6px;
+      min-height: 36px;
+      padding: 3px 6px;
+      border-radius: 4px;
+    }
+
+    .node-row:hover {
+      background: var(--hover);
+    }
+
+    .toggle {
+      flex: 0 0 20px;
+      width: 20px;
+      height: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+      border: 0;
+      background: transparent;
+      color: var(--muted);
+      font-size: 16px;
+    }
+
+    .toggle:hover {
+      color: var(--text);
+    }
+
+    .toggle:focus-visible,
+    .toolbar button:focus-visible {
+      outline: 2px solid var(--spade);
+      outline-offset: 2px;
+    }
+
+    .toggle-placeholder {
+      flex: 0 0 20px;
+      width: 20px;
+    }
+
+    .bid {
+      flex-shrink: 0;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    .description {
+      min-width: 0;
+      color: var(--muted);
+      overflow-wrap: anywhere;
+    }
+
+    .suit {
+      font-weight: 600;
+    }
+
+    .club {
+      color: var(--club);
+    }
+
+    .diamond {
+      color: var(--diamond);
+    }
+
+    .heart {
+      color: var(--heart);
+    }
+
+    .spade {
+      color: var(--spade);
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    @media (max-width: 600px) {
+      body {
+        font-size: 16px;
+      }
+
+      header {
+        padding: 18px 14px 12px;
+      }
+
+      main {
+        padding: 12px 10px 32px;
+      }
+
+      .node-children {
+        margin-left: 10px;
+        padding-left: 10px;
+      }
+
+      .node-row {
+        gap: 4px;
+        padding: 3px 2px;
+      }
+
+      h1 {
+        font-size: 21px;
+      }
+    }
+  </style>
 </head>
+
 <body>
+
   <header>
-    <h1>Sistema Bridge</h1>
-    <select id="tree-select">
-      <option value="apertura-1fiori">Apertura 1♣</option>
-      <option value="interferenze">Interferenze</option>
-    </select>
-    <button id="export-pdf">Esporta PDF</button>
+    <h1>Sistema dichiarativo di bridge</h1>
+
+    <div class="toolbar">
+      <button id="expandAll" type="button">
+        Espandi tutto
+      </button>
+
+      <button id="collapseAll" type="button">
+        Comprimi tutto
+      </button>
+    </div>
   </header>
 
-  <!-- Il contenitore dove verrà disegnato l'albero -->
-  <div id="tree-container"></div>
+  <main>
+    <div id="tree"></div>
+  </main>
 
-  <!-- Il tuo codice, caricato per ultimo -->
-  <script src="js/main.js"></script>
+  <script>
+    // --------------------------------------------------
+    // DATI DI ESEMPIO
+    //
+    // In seguito sostituiremo questi dati con il JSON
+    // completo del tuo sistema dichiarativo.
+    // --------------------------------------------------
+
+    const system = [
+      {
+        id: "opening-1c",
+        bid: "1♣",
+        description: "Apertura",
+        children: [
+          {
+            id: "1c-1d",
+            bid: "1♦",
+            description: "= 4+♥",
+            children: []
+          },
+          {
+            id: "1c-1h",
+            bid: "1♥",
+            description: "= 4+♠",
+            children: []
+          },
+          {
+            id: "1c-1s",
+            bid: "1♠",
+            description:
+              "= 0-13 senza nobili oppure 5+♦ SBIL GF",
+            children: []
+          },
+          {
+            id: "1c-1nt",
+            bid: "1NT",
+            description:
+              "= relay GF senza quinte nobili",
+            children: []
+          },
+          {
+            id: "1c-2c",
+            bid: "2♣",
+            description:
+              "= 0-9 HCP con 6+♣ o 5♣332♦",
+            children: []
+          },
+          {
+            id: "1c-2d",
+            bid: "2♦",
+            description:
+              "= 6♥ o 6♠ debole 0-8",
+            children: []
+          },
+          {
+            id: "1c-2h",
+            bid: "2♥",
+            description:
+              "= TRI 12-15 qualunque corta",
+            children: []
+          },
+          {
+            id: "1c-2s",
+            bid: "2♠",
+            description:
+              "= 5+♦/4 nobile + SGL indefinito",
+            children: []
+          },
+          {
+            id: "1c-2nt",
+            bid: "2NT",
+            description:
+              "= naturale INV 11-12 senza quarte nobili",
+            children: []
+          },
+          {
+            id: "1c-3c",
+            bid: "3♣",
+            description:
+              "= 6♣ belle o 7♣ INV",
+            children: []
+          },
+          {
+            id: "1c-3d",
+            bid: "3♦",
+            description: "= mini-ALASKA ♥",
+            children: [
+              {
+                id: "1c-3d-3h",
+                bid: "3♥",
+                description: "= NF",
+                children: []
+              },
+              {
+                id: "1c-3d-3s",
+                bid: "3♠",
+                description: "= fit a ♥ non serio",
+                children: []
+              },
+              {
+                id: "1c-3d-3nt",
+                bid: "3NT",
+                description: "= chiusura",
+                children: []
+              },
+              {
+                id: "1c-3d-4c",
+                bid: "4♣",
+                description: "= impone ♣",
+                children: []
+              },
+              {
+                id: "1c-3d-4d",
+                bid: "4♦",
+                description: "= ISL giocando a ♥",
+                children: []
+              },
+              {
+                id: "1c-3d-4h",
+                bid: "4♥",
+                description: "= chiusura",
+                children: []
+              }
+            ]
+          }
+        ]
+      }
+    ];
+
+    // --------------------------------------------------
+    // FUNZIONI DI VISUALIZZAZIONE
+    // --------------------------------------------------
+
+    const tree = document.getElementById("tree");
+
+    // Colora automaticamente i simboli dei semi.
+    function formatSuits(text) {
+      const fragment = document.createDocumentFragment();
+
+      const suitRegex = /[♣♦♥♠]/g;
+
+      let lastIndex = 0;
+      let match;
+
+      while ((match = suitRegex.exec(text)) !== null) {
+        // Testo precedente al simbolo.
+        fragment.appendChild(
+          document.createTextNode(
+            text.slice(lastIndex, match.index)
+          )
+        );
+
+        // Simbolo del seme.
+        const span = document.createElement("span");
+
+        span.classList.add("suit");
+
+        const classes = {
+          "♣": "club",
+          "♦": "diamond",
+          "♥": "heart",
+          "♠": "spade"
+        };
+
+        span.classList.add(classes[match[0]]);
+        span.textContent = match[0];
+
+        fragment.appendChild(span);
+
+        lastIndex = match.index + match[0].length;
+      }
+
+      fragment.appendChild(
+        document.createTextNode(text.slice(lastIndex))
+      );
+
+      return fragment;
+    }
+
+    // Crea un singolo nodo e i suoi eventuali figli.
+    function createNode(node) {
+      const container = document.createElement("div");
+      container.className = "node";
+
+      const row = document.createElement("div");
+      row.className = "node-row";
+
+      const childrenContainer = document.createElement("div");
+      childrenContainer.className = "node-children";
+
+      const hasChildren =
+        Array.isArray(node.children) &&
+        node.children.length > 0;
+
+      // Pulsante di espansione.
+      if (hasChildren) {
+        const toggle = document.createElement("button");
+
+        toggle.className = "toggle";
+        toggle.type = "button";
+        toggle.textContent = "›";
+        toggle.setAttribute("aria-expanded", "false");
+        toggle.setAttribute(
+          "aria-label",
+          "Espandi " + node.bid
+        );
+
+        toggle.addEventListener("click", () => {
+          const isExpanded =
+            toggle.getAttribute("aria-expanded") === "true";
+
+          setExpanded(
+            toggle,
+            childrenContainer,
+            !isExpanded
+          );
+        });
+
+        row.appendChild(toggle);
+      } else {
+        const placeholder = document.createElement("span");
+        placeholder.className = "toggle-placeholder";
+        row.appendChild(placeholder);
+      }
+
+      // Dichiarazione.
+      const bid = document.createElement("span");
+      bid.className = "bid";
+      bid.appendChild(formatSuits(node.bid || ""));
+
+      row.appendChild(bid);
+
+      // Significato della dichiarazione.
+      const description = document.createElement("span");
+      description.className = "description";
+      description.appendChild(
+        formatSuits(node.description || "")
+      );
+
+      row.appendChild(description);
+
+      container.appendChild(row);
+
+      // Costruzione ricorsiva dei figli.
+      if (hasChildren) {
+        node.children.forEach(child => {
+          childrenContainer.appendChild(
+            createNode(child)
+          );
+        });
+
+        childrenContainer.classList.add("hidden");
+
+        container.appendChild(childrenContainer);
+      }
+
+      return container;
+    }
+
+    // Espande o comprime un nodo.
+    function setExpanded(button, children, expanded) {
+      children.classList.toggle("hidden", !expanded);
+
+      button.textContent = expanded ? "⌄" : "›";
+
+      button.setAttribute(
+        "aria-expanded",
+        String(expanded)
+      );
+
+      button.setAttribute(
+        "aria-label",
+        (expanded ? "Comprimi " : "Espandi ") +
+        button.parentElement.querySelector(".bid").textContent
+      );
+    }
+
+    // Disegna l'intero albero.
+    function renderTree(data) {
+      tree.replaceChildren();
+
+      data.forEach(node => {
+        tree.appendChild(createNode(node));
+      });
+    }
+
+    // Espande o comprime tutti i nodi.
+    function setAllExpanded(expanded) {
+      tree.querySelectorAll(".node").forEach(node => {
+        const children =
+          node.querySelector(":scope > .node-children");
+
+        const button =
+          node.querySelector(":scope > .node-row .toggle");
+
+        if (children && button) {
+          setExpanded(button, children, expanded);
+        }
+      });
+    }
+
+    document.getElementById("expandAll")
+      .addEventListener("click", () => {
+        setAllExpanded(true);
+      });
+
+    document.getElementById("collapseAll")
+      .addEventListener("click", () => {
+        setAllExpanded(false);
+      });
+
+    // Avvio della pagina.
+    renderTree(system);
+  </script>
+
 </body>
 </html>
