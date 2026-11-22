@@ -1,0 +1,88 @@
+{
+  "columns": [
+    "Dichiarazione",
+    "Significato"
+  ],
+  "rows": [
+    {
+      "bid": "1♣",
+      "meaning": "Preparatiorio 2+♣ (11-21)"
+    },
+    {
+      "bid": "1♦",
+      "meaning": "Naturale 4+♦ (11-21)"
+    },
+    {
+      "bid": "1♥",
+      "meaning": "Naturale 5+♥ (11-21)"
+    },
+    {
+      "bid": "1♠",
+      "meaning": "Naturale 5+♠ (11-21)"
+    },
+    {
+      "bid": "1NT",
+      "meaning": "(14)15-17 bilanciato (possibile 5 nobile nel range basso)"
+    },
+    {
+      "bid": "2♣",
+      "meaning": "Bilanciata 22+ oppure qualsiasi FM"
+    },
+    {
+      "bid": "2♦",
+      "meaning": "Bilanciata 18-19 senza quinta nobile"
+    },
+    {
+      "bid": "2♥",
+      "meaning": "Sottoapertura"
+    },
+    {
+      "bid": "2♠",
+      "meaning": "Sottoapertura"
+    },
+    {
+      "bid": "2NT",
+      "meaning": "20-21 bilanciati"
+    },
+    {
+      "bid": "3♣",
+      "meaning": "Barrage"
+    },
+    {
+      "bid": "3♦",
+      "meaning": "Barrage"
+    },
+    {
+      "bid": "3♥",
+      "meaning": "Barrage"
+    },
+    {
+      "bid": "3♠",
+      "meaning": "Barrage"
+    },
+    {
+      "bid": "3NT",
+      "meaning": "Un buon 4♥ o 4♠"
+    },
+    {
+      "bid": "4♣",
+      "meaning": "Barrage"
+    },
+    {
+      "bid": "4♦",
+      "meaning": "Barrage"
+    },
+    {
+      "bid": "4♥",
+      "meaning": "Barrage"
+    },
+    {
+      "bid": "4♠",
+      "meaning": "Barrage"
+    },
+    {
+      "bid": "4NT",
+      "meaning": "Grande bicolore minore"
+    }
+  ]
+}
