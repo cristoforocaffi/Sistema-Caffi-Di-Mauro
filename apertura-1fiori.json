@@ -1,0 +1,112 @@
+[
+  {
+    "id": "1c",
+    "bid": "1♣",
+    "description": "Apertura",
+    "children": [
+      {
+        "id": "1c-1d",
+        "bid": "1♦",
+        "description": "= 4+♥",
+        "children": []
+      },
+      {
+        "id": "1c-1h",
+        "bid": "1♥",
+        "description": "= 4+♠",
+        "children": []
+      },
+      {
+        "id": "1c-1s",
+        "bid": "1♠",
+        "description": "= 0-13 senza nobili oppure 5+♦ SBIL GF",
+        "children": []
+      },
+      {
+        "id": "1c-1nt",
+        "bid": "1NT",
+        "description": "= relay GF senza quinte nobili",
+        "children": []
+      },
+      {
+        "id": "1c-2c",
+        "bid": "2♣",
+        "description": "= 0-9 HCP con 6+♣ o 5♣332♦",
+        "children": []
+      },
+      {
+        "id": "1c-2d",
+        "bid": "2♦",
+        "description": "= 6♥ o 6♠ debole 0-8",
+        "children": []
+      },
+      {
+        "id": "1c-2h",
+        "bid": "2♥",
+        "description": "= TRI 12-15 qualunque corta",
+        "children": []
+      },
+      {
+        "id": "1c-2s",
+        "bid": "2♠",
+        "description": "= 5+♦/4 nobile + SGL indefinito",
+        "children": []
+      },
+      {
+        "id": "1c-2nt",
+        "bid": "2NT",
+        "description": "= naturale INV 11-12 senza quarte nobili",
+        "children": []
+      },
+      {
+        "id": "1c-3c",
+        "bid": "3♣",
+        "description": "= 6♣ belle o 7♣ INV",
+        "children": []
+      },
+      {
+        "id": "1c-3d",
+        "bid": "3♦",
+        "description": "= mini-ALASKA ♥",
+        "children": [
+          {
+            "id": "1c-3d-3h",
+            "bid": "3♥",
+            "description": "= NF",
+            "children": []
+          },
+          {
+            "id": "1c-3d-3s",
+            "bid": "3♠",
+            "description": "= fit a ♥ non serio",
+            "children": []
+          },
+          {
+            "id": "1c-3d-3nt",
+            "bid": "3NT",
+            "description": "= chiusura",
+            "children": []
+          },
+          {
+            "id": "1c-3d-4c",
+            "bid": "4♣",
+            "description": "= impone ♣",
+            "children": []
+          },
+          {
+            "id": "1c-3d-4d",
+            "bid": "4♦",
+            "description": "= ISL giocando a ♥",
+            "children": []
+          },
+          {
+            "id": "1c-3d-4h",
+            "bid": "4♥",
+            "description": "= chiusura",
+            "children": []
+          }
+        ]
+      }
+    ]
+  }
+]
